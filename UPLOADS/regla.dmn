@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="decision1" name="Decision1">
+    <decisionTable id="decisionTable1">
+      <input id="input1">
+        <inputExpression id="inputExpression1" typeRef="string">
+          <text>variable</text>
+        </inputExpression>
+      </input>
+      <output id="output1" name="resultado" typeRef="string" />
+      <rule id="DecisionRule_1m1cj0n">
+        <inputEntry id="UnaryTests_115qozy">
+          <text>"Si"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1juu9x3">
+          <text>10</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0jvvvx4">
+        <inputEntry id="UnaryTests_1og27g8">
+          <text>"No"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1seoa03">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
