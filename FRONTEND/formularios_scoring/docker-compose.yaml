@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./BACKEND
+    container_name: scoring-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./BACKEND/.env
+    volumes:
+      - ./BACKEND/uploads:/app/uploads
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./FRONTEND
+    container_name: scoring-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

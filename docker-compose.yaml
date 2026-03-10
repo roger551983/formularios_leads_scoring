@@ -1,0 +1,58 @@
+
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: postgres_scoring
+    restart: always
+    environment:
+      POSTGRES_DB: scoringDB
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: "12345"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d scoringDB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  adminer:
+    image: adminer
+    container_name: adminer_scoring
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+  backend:
+    build: ./BACKEND
+    container_name: fastapi_scoring
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql+asyncpg://admin:12345@postgres:5432/scoringDB
+    ports:
+      - "8000:8000"
+    volumes:
+    - ./BACKEND/UPLOADS:/app/uploads
+
+  frontend:
+    build:
+      context: ./FRONTEND/formularios_scoring
+      dockerfile: Dockerfile
+    image: angular-app
+    container_name: angular_frontend
+    ports:
+      - "4300:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+
+volumes:
+  postgres_data:
